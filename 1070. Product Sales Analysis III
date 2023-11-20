@@ -1,0 +1,8 @@
+select t.product_id,first_year,t.quantity,t.price  
+from
+(select s.product_id,s.year as first_year,s.quantity,s.price,
+dense_rank() over(partition by product_id order by year) as rn
+from Sales s 
+join Product p
+on s.product_id = p.product_id) t
+where t.rn=1
