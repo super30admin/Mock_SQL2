@@ -1,0 +1,8 @@
+with allProducts as (
+select distinct product_key
+from Product
+)
+select customer_id
+from Customer
+group by 1
+having count(distinct product_key) = (select count(*) from allProducts)
