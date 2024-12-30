@@ -1,0 +1,20 @@
+
+# Customers Who Bought All Products_Solution
+
+SELECT c.customer_id
+FROM customer c
+GROUP BY c.customer_id
+HAVING COUNT(DISTINCT c.product_key) = (SELECT COUNT(p.product_key) FROM product p);
+
+# Product Sales Analysis III_Solution
+
+WITH cte AS
+(
+    SELECT *,
+    RANK() OVER(PARTITION BY product_id ORDER BY year) AS 'rnk'
+    FROM Sales
+)
+
+SELECT product_id, year AS first_year, quantity, price
+FROM cte
+WHERE rnk = 1;
